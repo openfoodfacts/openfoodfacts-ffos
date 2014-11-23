@@ -1,6 +1,6 @@
 {
-  "name": "Test",
-  "description": "A Hello World app",
+  "name": "Camera QRCode Test",
+  "description": "Trying to scan the camera preview",
   "launch_path": "/index.html",
   "icons": {
     "16": "/icons/icon16x16.png",
@@ -10,8 +10,6 @@
   },
   "type": "privileged",
   "permissions": {
-    "video-capture": {
-      "description": "Required to capture audio via getUserMedia"
-    }
+    "camera": { }
   }
 }

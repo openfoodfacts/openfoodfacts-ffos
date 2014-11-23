@@ -1,47 +1,44 @@
-window.addEventListener( "load", function() {
+window.addEventListener("load", function() {
 
-    var stream = null;
-    var video = document.querySelector( 'video' );
-    var canvas = document.querySelector( 'canvas' );
-    var context = canvas.getContext( '2d' );
-    var w, h, ratio;
+	var video = document.querySelector('video');
+	var canvas = document.querySelector('canvas');
+	var debug = document.querySelector('#debug');
+	var context = canvas.getContext('2d');
+	var cameras = navigator.mozCameras.getListOfCameras();
 
-    navigator.getUserMedia = ( navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia );
+	function debug_msg(msg) {
+		// because console.log doesn't work on my machine
+		debug.innerHTML = debug.innerHTML + "<br/>" + msg;
+	}
 
-    if ( navigator.getUserMedia ) {
+	function logError(err) {
+		debug_msg('error: ' + err);
+	}
 
-        navigator.getUserMedia( {
-                video: true
-            },
+	function previewCamera(camera) {
+		debug_msg('camera: ' + camera.toString());
+		video.mozSrcObject = camera;
+		video.play();
+	}
 
-            function( localMediaStream ) {
-                video.src = window.URL.createObjectURL( localMediaStream );
-                video.play();
-            },
+	debug.innerHTML = 'about to get camera preview: ' + cameras[0];
 
-            function( err ) {
-                console.log( "The following error occured: " + err );
-            }
+	navigator.mozCameras.getCamera(
+		cameras[0], {
+			mode: "picture"
+		},
+		previewCamera,
+		logError
+	);
 
-        );
+	takeScreenshot = function() {
+		var w = video.videoWidth;
+		var h = video.videoHeight;
+		canvas.width = w;
+		canvas.height = h;
+		context.fillRect(0, 0, w, h);
+		context.drawImage(video, 0, 0, w, h);
+	};
 
-    } else {
-        console.log( "getUserMedia not supported" );
-    }
-
-    takeScreenshot = function() {
-        ratio = video.videoWidth / video.videoHeight;
-        w = video.videoWidth - 100;
-        h = parseInt( w / ratio, 10 );
-        canvas.width = w;
-        canvas.height = h;
-        context.fillRect( 0, 0, w, h );
-        context.drawImage( video, 0, 0, w, h );
-    };
-
-    document.addEventListener( 'touchstart', takeScreenshot );
-
-} );
+	document.addEventListener('touchstart', takeScreenshot);
+});
