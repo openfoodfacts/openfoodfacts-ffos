@@ -4,7 +4,7 @@ window.addEventListener("load", function() {
 	var canvas = document.querySelector('canvas');
 	var debug = document.querySelector('#debug');
 	var context = canvas.getContext('2d');
-	var cameras = navigator.mozCameras.getListOfCameras();
+	var cameras;
 
 	function debug_msg(msg) {
 		// because console.log doesn't work on my machine
@@ -21,7 +21,11 @@ window.addEventListener("load", function() {
 		video.play();
 	}
 
-	debug.innerHTML = 'about to get camera preview: ' + cameras[0];
+	debug.innerHTML = 'init';
+
+	cameras = navigator.mozCameras.getListOfCameras();
+
+	debug_msg('about to get camera preview: ' + cameras[0]);
 
 	navigator.mozCameras.getCamera(
 		cameras[0], {
