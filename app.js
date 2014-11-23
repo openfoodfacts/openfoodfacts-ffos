@@ -38,6 +38,9 @@ window.addEventListener("load", function() {
 		canvas.height = h;
 		context.fillRect(0, 0, w, h);
 		context.drawImage(video, 0, 0, w, h);
+		debug_msg("decoding");
+		qrcode.callback = debug_msg;
+		qrcode.decode();
 	};
 
 	document.addEventListener('touchstart', takeScreenshot);
