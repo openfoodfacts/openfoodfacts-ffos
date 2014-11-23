@@ -17,6 +17,7 @@ window.addEventListener("load", function() {
 
 	function previewCamera(camera) {
 		debug_msg('camera: ' + camera.toString());
+		camera.focusMode = "continuous-picture";
 		video.mozSrcObject = camera;
 		video.play();
 	}
