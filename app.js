@@ -36,7 +36,6 @@ window.addEventListener("load", function() {
 		var h = video.videoHeight;
 		canvas.width = w;
 		canvas.height = h;
-		context.fillRect(0, 0, w, h);
 		context.drawImage(video, 0, 0, w, h);
 		debug_msg("decoding");
 		qrcode.callback = debug_msg;
